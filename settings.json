@@ -1,11 +1,13 @@
 {
   "game": {
     "caption": "Dungeon Encvisition",
-    "screen_width": 1200,
-    "screen_height": 600,
+    "scale": 1.2,
+    "screen_width": 1920,
+    "screen_height": 1080,
     "fps": 60
   },
   "default": {
+    "scale": 1.2,
     "screen_width": 1200,
     "screen_height": 600,
     "fps": 60

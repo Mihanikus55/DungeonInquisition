@@ -9,15 +9,21 @@ class Game:
     def __init__(self):
         pygame.init()
         self.load_settings()
+        self.set_display_mode()
 
+        self.fpsClock = pygame.time.Clock()
+
+    def set_display_mode(self):
         self.screen = pygame.display.set_mode(
             (self.game_settings["screen_width"], self.game_settings["screen_height"]))
+        # self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 
         pygame.display.set_caption(self.game_settings["caption"])
 
+        self.starting_bg = pygame.transform.scale(pygame.image.load('game_data/backgrounds/main_window_background.png'),
+                                                  (self.game_settings["screen_width"] / self.game_settings["scale"],
+                                                   self.game_settings["screen_height"] / self.game_settings["scale"]))
         # pygame.display.set_icon(self.game_settings.icon)
-
-        self.fpsClock = pygame.time.Clock()
 
     def load_settings(self):
         with open("settings.json", encoding='utf-8') as f:
@@ -35,6 +41,7 @@ class Game:
             self.check_events()
 
             self.screen.fill((0, 0, 0))
+            self.screen.blit(self.starting_bg, (0, 0))
             pygame.display.flip()
             self.fpsClock.tick(self.game_settings["fps"])
 
