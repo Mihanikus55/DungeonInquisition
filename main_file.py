@@ -3,26 +3,36 @@ import sys
 import json
 import pygame
 from pygame.locals import *
+from ctypes import windll
 
 
 class Game:
     def __init__(self):
         pygame.init()
         self.load_settings()
+        self.load_display_wh()
         self.set_display_mode()
 
         self.fpsClock = pygame.time.Clock()
 
+    def load_display_wh(self):
+        self.user32 = windll.user32
+        self.user32.SetProcessDPIAware()
+        width = self.user32.GetSystemMetrics(0)
+        height = self.user32.GetSystemMetrics(1)
+        self.game_settings["screen_width"] = width
+        self.game_settings["screen_height"] = height
+        self.save_settings()
+
     def set_display_mode(self):
         self.screen = pygame.display.set_mode(
             (self.game_settings["screen_width"], self.game_settings["screen_height"]))
-        # self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 
         pygame.display.set_caption(self.game_settings["caption"])
 
         self.starting_bg = pygame.transform.scale(pygame.image.load('game_data/backgrounds/main_window_background.png'),
-                                                  (self.game_settings["screen_width"] / self.game_settings["scale"],
-                                                   self.game_settings["screen_height"] / self.game_settings["scale"]))
+                                                  (self.game_settings["screen_width"],
+                                                   self.game_settings["screen_height"]))
         # pygame.display.set_icon(self.game_settings.icon)
 
     def load_settings(self):
