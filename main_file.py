@@ -15,6 +15,8 @@ class GameMainWindow:
         self.load_display_wh()
         self.set_display_mode()
 
+        self.change_cur_wnd(StartingWindow(self.game_settings, self.screen))
+
         self.fpsClock = pygame.time.Clock()
 
     def load_display_wh(self):
@@ -31,12 +33,6 @@ class GameMainWindow:
             (self.game_settings["screen_width"], self.game_settings["screen_height"]))
 
         pygame.display.set_caption(self.game_settings["caption"])
-
-        self.game_settings["cur_bg"] = pygame.transform.scale(
-            pygame.image.load('game_data/backgrounds/starting_bg.png'),
-            (self.game_settings["screen_width"],
-             self.game_settings["screen_height"]))
-
         # pygame.display.set_icon(self.game_settings.icon)
 
     def load_settings(self):
@@ -52,10 +48,10 @@ class GameMainWindow:
 
     def run(self):
         while True:
-            self.check_events()
-
             self.screen.fill((0, 0, 0))
-            self.screen.blit(self.game_settings["cur_bg"], (0, 0))
+
+            self.check_events()
+            self.cur_window.update()
             pygame.display.flip()
             self.fpsClock.tick(self.game_settings["fps"])
 
@@ -63,6 +59,9 @@ class GameMainWindow:
         for event in pygame.event.get():
             if event.type == QUIT:
                 self.quit_game()
+
+    def change_cur_wnd(self, name_wnd):
+        self.cur_window = name_wnd
 
     def save_game(self):
         self.save_settings()
@@ -77,5 +76,5 @@ class GameMainWindow:
 
 
 if __name__ == '__main__':
-    de = Game()
+    de = GameMainWindow()
     de.run()
