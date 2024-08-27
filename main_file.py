@@ -5,8 +5,10 @@ import pygame
 from pygame.locals import *
 from ctypes import windll
 
+from start_wnd import StartingWindow
 
-class Game:
+
+class GameMainWindow:
     def __init__(self):
         pygame.init()
         self.load_settings()
@@ -30,9 +32,11 @@ class Game:
 
         pygame.display.set_caption(self.game_settings["caption"])
 
-        self.starting_bg = pygame.transform.scale(pygame.image.load('game_data/backgrounds/main_window_background.png'),
-                                                  (self.game_settings["screen_width"],
-                                                   self.game_settings["screen_height"]))
+        self.game_settings["cur_bg"] = pygame.transform.scale(
+            pygame.image.load('game_data/backgrounds/starting_bg.png'),
+            (self.game_settings["screen_width"],
+             self.game_settings["screen_height"]))
+
         # pygame.display.set_icon(self.game_settings.icon)
 
     def load_settings(self):
@@ -51,7 +55,7 @@ class Game:
             self.check_events()
 
             self.screen.fill((0, 0, 0))
-            self.screen.blit(self.starting_bg, (0, 0))
+            self.screen.blit(self.game_settings["cur_bg"], (0, 0))
             pygame.display.flip()
             self.fpsClock.tick(self.game_settings["fps"])
 
