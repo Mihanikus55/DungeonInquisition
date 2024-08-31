@@ -49,16 +49,21 @@ class GameMainWindow:
     def run(self):
         while True:
             self.screen.fill((0, 0, 0))
+            self.screen.blit(self.game_settings["cur_bg"], (0, 0))
 
-            self.check_events()
+            self._check_events()
+
             self.cur_window.update()
             pygame.display.flip()
             self.fpsClock.tick(self.game_settings["fps"])
 
-    def check_events(self):
+    def _check_events(self):
         for event in pygame.event.get():
             if event.type == QUIT:
                 self.quit_game()
+            if event.type == MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    self.cur_window.check_buttons_clicked(event.pos)
 
     def change_cur_wnd(self, name_wnd):
         self.cur_window = name_wnd
